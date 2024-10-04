@@ -1,0 +1,55 @@
+.pill {
+    display: flex;
+    align-items: center;
+    width: 8rem;
+    height: 1.9rem;
+    background-color: var(--background);
+    border-radius: 2rem;
+    padding: .2rem;
+    position: relative;
+    overflow: hidden;
+    margin-left: 1rem;
+    cursor: pointer;
+}
+
+.inner-pill {
+    width: 4rem;
+    height: 1.8rem;
+    margin-left:.1rem;
+    background-color: var(--white);
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: var(--darker-grey);
+    font-size: .9rem;
+    position: absolute;
+    transition: transform 0.3s ease;
+    font-weight: 600;
+}
+
+.inner-pill.left {
+    transform: translateX(0);
+}
+
+.inner-pill.right {
+    transform: translateX(3.82rem);
+}
+
+.bg-pill {
+    width: 4rem;
+    height: 2rem;
+    background-color: var(--background);
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--darker-grey);
+    font-size: .9rem;
+    position: absolute;
+}
+
+.bg-pill.right {
+    margin-left: 4rem;
+}
