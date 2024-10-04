@@ -1,0 +1,86 @@
+.message-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+    box-sizing: border-box;
+    overflow-y: auto;
+    justify-content: flex-start;
+    align-items: center;
+    position:absolute;
+    bottom: calc(var(--dynamic-height) + 2rem);
+    overflow-y: overlay;
+    height: calc(100% - max(6vh, 3rem) - var(--dynamic-height) - 2rem);
+    padding-top: 2rem;
+    padding-left:13px;
+    transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out
+}
+
+.user-message {
+    max-width:33rem;
+    min-height: 1.5rem;
+    border-radius: 1.5rem;
+    background-color: var(--white);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .75rem 1.25rem;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    height: auto;
+    text-align: left;
+    overflow-wrap: break-word;
+}
+
+.phoebe-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2.7rem;
+    height:2.7rem;
+    border-radius: 50%;
+    color: white;
+    overflow:hidden;
+    border: px solid var(--white);
+    user-select: none;
+}
+
+.phoebe-icon img {
+    width: auto;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.assistant-message {
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: start;
+    text-align: left;
+}
+
+.message-row {
+    width: 45rem;
+    height:auto;
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    flex-shrink: 0;
+    color: var(--black);
+    font-size: 15px;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+}
+
+.t-user {
+    justify-content: end;
+}
+
+.t-assistant {
+    justify-content: space-between;
+}

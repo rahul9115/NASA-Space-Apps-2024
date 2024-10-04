@@ -1,0 +1,20 @@
+:root {
+    --white: #FFFFFF;
+    --off-white: #ADC2A4;
+    --pq-blue: #019CDB;
+    --dark-pq: #496443;
+    --grey: #F0F0F0;
+    --dark-grey: #707070; /* for text */
+    --darker-grey: #464646;
+    --off-blue: #419BC0;
+    --red:#DB4001;
+    --green:#2FDB01;
+    --light-pq:#e6f8ff;
+    --background: #F7F7F7;
+    --chat-pq: #FFFFFF;
+    --chat-text: #707070;
+    --header-bg: #FFFFFF;
+    --header-title: #496443;
+    --circle-bg: #8AA56E;
+    --dark-white: #ECECEC;
+  }

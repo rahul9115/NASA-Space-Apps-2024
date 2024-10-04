@@ -1,0 +1,134 @@
+.header-cont {
+    min-height: 3vh;
+    z-index: 1000;
+    user-select: none;
+}
+
+.title {
+    margin-left: 1.875rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.header {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 6vh;
+    min-height: 3rem;
+    background-color: var(--header-bg);
+    z-index: 1000;
+}
+
+.header-logo {
+    height: 2.4rem;
+    width: 2.3rem;
+}
+
+.header-image {
+    height:2.75rem;
+    width:5.75rem;
+    margin-left:1.875rem;
+    margin-right:1.875rem;
+    vertical-align:middle;
+}
+
+.header-title {
+    margin-left: .2rem;
+    height:2.5rem;
+    color:var(--header-title);
+    text-align: center;
+    display:inline-block;
+    font-size: 1.8rem;
+    font-weight: 800;
+    padding: .25rem .5rem;
+    border-radius: .5rem;
+    text-decoration: none;
+    font-family: 'Poppins';
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-title:hover {
+    background-color: #EDEDED; /* Change to a darker shade on hover */
+}
+
+.circle-icon {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2.48rem;
+    height:2.48rem;
+    border-radius: 50%;
+    background-color: var(--circle-bg);
+    color: white;
+    font-size: 17px;
+    font-weight: 500;
+    margin-right:1.5rem;
+    overflow:hidden
+}
+
+.circle-icon img {
+    width: 120%;
+    height: 120%;
+    object-fit: cover;
+}
+
+.circle-icon:hover {
+    background-color: var(--dark-pq);
+}
+
+.sign-btn {
+    margin-right:1.875rem;
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+    width: 6.25rem;
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height:100%;
+}
+
+.header-loc {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 10rem;
+    height:2.48rem;
+    color: var(--circle-bg);
+    font-size: 17px;
+    font-weight: 500;
+    margin-right:1.5rem;
+    overflow:hidden
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1440px) {
+    .circle-icon {
+        margin-right:1.5rem;
+        width: 2.28rem;
+        height: 2.28rem;
+        font-size:14px;
+    }
+
+    .header {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        height: 6vh;
+        min-height: 3rem;
+        background-color: var(--header-bg);
+        /* background-color: #ccf0ff; */
+    }
+}

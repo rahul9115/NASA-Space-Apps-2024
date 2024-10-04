@@ -14,18 +14,26 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  scrollbar-color: var(--dark-grey) transparent;
+  background-color: var(--background);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  font-family: 'Poppins';
+  flex-grow: 1;
+  /* width: calc(100% - 17rem); */
 }
 
 .App-link {
   color: #61dafb;
+}
+
+.container {
+  display: flex;
+  align-items: center;
 }
 
 @keyframes App-logo-spin {
@@ -35,4 +43,52 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+
+.please-sign {
+  color: red;
+  font-size: 30px;
+  text-align: center;
+  width: 100%;
+  font-weight: bold;
+  margin-top: 23rem;
+}
+
+
+@media screen and (min-width: 1024px) and (max-width: 1440px) {
+  .please-sign {
+    margin-top: 14rem;
+  }
+
+}
+
+
+.bottom-text {
+  color: #707070;
+  font-size:.7rem;
+  position: fixed;
+  bottom: .5vh;
+  /* border: 1px solid black; */
+  padding: .1rem;
+  transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
+  user-select: none;
+}
+
+.bottom-text.no-transition {
+  color: #707070;
+  font-size:.7rem;
+  position: fixed;
+  bottom: .5vh;
+  /* border: 1px solid black; */
+  padding: .1rem;
+  transition: none
+}
+
+:root {
+  --main-font-family: 'Poppins', sans-serif !important;
+}
+
+body p, body h1, body h2, body h3, body h4, body h5, body h6, body a, body span, body div, body input, body, textarea, input::placeholder, textarea::placeholder {
+  font-family: var(--main-font-family) !important;
 }
