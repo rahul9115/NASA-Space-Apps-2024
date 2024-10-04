@@ -20,11 +20,11 @@ from urllib3.exceptions import InsecureRequestWarning
 urllib3.disable_warnings(InsecureRequestWarning)
 load_dotenv()
 http_client = httpx.Client(verify=False)
-
 def lookup(question) :
     llm=ChatOpenAI(temperature=0)
     summary_template = """
-    You are answering questions to help and solve problems for farmers. From that perspective try searcing an answer to this {question}.
+    You are answering questions to help and solve problems for farmers. From that perspective try searcing an answer to this {question} from this website given below
+    https://gpm.nasa.gov/applications/water
     """
     search = SearchApiAPIWrapper(http_client=http_client)
     summary_prompt_template = PromptTemplate(input_variables=["question"], template=summary_template)
@@ -42,7 +42,8 @@ def lookup(question) :
     response=agent_executor.invoke(
         input={"input":summary_prompt_template.format_prompt(question=question)}
     )
-    return response
+    response=dict(response)
+    return response["output"]
 
 def ai_agent(question):
     ssl._create_default_https_context = ssl._create_unverified_context
@@ -57,13 +58,13 @@ def ai_agent(question):
     llm=ChatOpenAI(temperature=0,http_client=http_client)
     chain=summary_prompt_template|llm 
     res=chain.invoke(input={"information":response})
-    print("LLM output",res)
-   
+    res=str(res).split("'")[1]
+    return res
 
 if __name__=="__main__":
     print("Langchain")
     load_dotenv()
     abs_path=os.getcwd()
     print(abs_path)
-    ai_agent("I live in Malvern, Can you tell me what kind of plantations I can do in this weather?")
+    ai_agent("Which is the most water scarce country?")
     
