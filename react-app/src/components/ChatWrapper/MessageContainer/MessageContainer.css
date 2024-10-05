@@ -36,13 +36,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 2.7rem;
-    height:2.7rem;
+    width: 3rem;
+    height:3rem;
     border-radius: 50%;
     color: white;
     overflow:hidden;
     border: px solid var(--white);
     user-select: none;
+    background-color: var(--grey);
+    margin-top: .3rem;
 }
 
 .phoebe-icon img {

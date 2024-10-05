@@ -124,3 +124,21 @@ export const getRandomString = (length) => {
     }
     return result;
 };
+
+export const formatAllMessages = (messages, newMessage) => {
+    let output = "Context/Previous Questions:";
+
+    // Iterate through the list of messages and append content based on the role
+    messages.forEach(message => {
+        if (message.role === 'user') {
+            output += message.content[0].text + "\n";
+        } else if (message.role === 'assistant') {
+            output += message.content + "\n";
+        }
+    });
+    
+    output += "\n";
+    output += "Question: " + newMessage + "\n";
+    
+    return output
+}

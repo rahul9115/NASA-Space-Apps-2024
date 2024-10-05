@@ -7,7 +7,7 @@ import { useSource } from '../../../SourceContext';
 import { FaMicrophoneAlt } from "react-icons/fa";
 // import HoverDescription from '../../HoverDescription';
 import { FaRegStopCircle } from "react-icons/fa";
-
+import axios from 'axios';
 
 const ChatBox = ({isLoading, inputFiles, setInputFiles, showFiles, setShowFiles, textareaRef, handleSubmit, inputValue, setInputValue, refProp}) => {
     const {source, setSource} = useSource();
@@ -57,7 +57,7 @@ const ChatBox = ({isLoading, inputFiles, setInputFiles, showFiles, setShowFiles,
         dataArrayRef.current = dataArray; // Store the reference for later use
 
         // Initialize MediaRecorder
-        const mediaRecorder = new MediaRecorder(stream);
+        const mediaRecorder = new MediaRecorder(stream, {mimeType: 'audio/webm'});
         mediaRecorderRef.current = mediaRecorder;
         audioChunksRef.current = [];
 
@@ -68,9 +68,27 @@ const ChatBox = ({isLoading, inputFiles, setInputFiles, showFiles, setShowFiles,
 
         // On stop (when the recording ends)
         mediaRecorder.onstop = () => {
-            const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
+            const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
             const audioUrl = URL.createObjectURL(audioBlob);
             setAudioURL(audioUrl);
+            
+            // Send the audio blob to the API
+            const formData = new FormData();
+            formData.append('file', audioBlob, 'recording.webm');  // Append the Blob to the FormData
+        
+            // var response = (await axios.post(`${process.env.REACT_APP_URL_BASE}/ai_agent`, api_object)).data;
+            // Send the FormData to the API using axios
+            axios.post(`${process.env.REACT_APP_URL_BASE}/audio_call`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then(response => {
+                console.log('File uploaded successfully:', response.data);
+            })
+            .catch(error => {
+                console.error('Error uploading file:', error);
+            });
         };
 
         // Start the MediaRecorder
@@ -161,7 +179,6 @@ const ChatBox = ({isLoading, inputFiles, setInputFiles, showFiles, setShowFiles,
     useEffect(() => {
         setInputValue("");
         setShowFiles(false);
-        setInputFiles([]);
     }, [source.session.session_id]);
 
     useEffect(() => {
@@ -216,7 +233,7 @@ const ChatBox = ({isLoading, inputFiles, setInputFiles, showFiles, setShowFiles,
                 <div>
                 <h3>Recorded Audio:</h3>
                 <audio controls src={audioURL}></audio>
-                <a href={audioURL} download="recorded-audio.wav">Download Audio</a>
+                <a href={audioURL} download="recording.webm">Download Audio</a>
                 </div>
             )} */}
             <div className='chat-row'>

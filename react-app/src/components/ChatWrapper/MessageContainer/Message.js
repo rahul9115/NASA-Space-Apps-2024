@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { PulseLoader } from 'react-spinners';
 import { ImFilesEmpty } from "react-icons/im";
+import { FaLeaf } from "react-icons/fa";
 
 
 const Message = ({item={content:""}, isLoading=false}) => {
@@ -44,7 +45,7 @@ const Message = ({item={content:""}, isLoading=false}) => {
             <div className='message-row t-assistant'>
                 <div className='assistant-message'>
                     <div className='phoebe-icon'>
-                        {/* <img src={ChatLogo} alt={"chat_logo.png"}/> */}
+                       <FaLeaf size='1.8rem' color='var(--circle-bg)'/>
                     </div>
                     <div style={{width:"41rem"}}>
                         {isLoading ? 
