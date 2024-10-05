@@ -18,7 +18,12 @@ import pyttsx3
 from gtts import gTTS
 from playsound import playsound
 from langdetect import detect, detect_langs
+<<<<<<< HEAD
 from pydub import AudioSegment
+=======
+import os
+import pygame
+>>>>>>> d2ba511f72f55a2c967f610d3a4d70ff239a121a
 
 
 @app.route("/ai_agent", methods=["GET", "POST"])
@@ -33,6 +38,7 @@ def ai_agent_call():
     else:
         return "Completed"
 
+<<<<<<< HEAD
 
 @app.route("/audio_call", methods=["GET", "POST"])
 def audio_call():
@@ -62,4 +68,21 @@ def audio_call():
 
 
 if __name__ == "__main__":
+=======
+@app.route("/audio_call",methods=["GET","POST"])
+def audio_call():
+    if request.method=="POST":
+        print("I am here")
+        audio_data, sample_rate = record_audio(duration=10, sample_rate=16000)
+        transcription,detected_lang=transcribe_audio(audio_data, sample_rate)
+        print(detected_lang)
+        text_to_speech(transcription,detected_lang)
+        translated_text = translate_text_deep(transcription, target_lang="en")
+        text_to_speech(translated_text, lang='en')
+    else:
+        return "Completed"  
+
+
+if __name__=="__main__":
+>>>>>>> d2ba511f72f55a2c967f610d3a4d70ff239a121a
     app.run(debug=True)
