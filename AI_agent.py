@@ -23,8 +23,7 @@ http_client = httpx.Client(verify=False)
 def lookup(question) :
     llm=ChatOpenAI(temperature=0)
     summary_template = """
-    You are answering questions to help and solve problems for farmers. From that perspective try searcing an answer to this {question} from this website given below
-    https://gpm.nasa.gov/applications/water
+    You are AGRI Dash a chatbot to answer questions to help and solve problems for farmers. From that perspective try searcing an answer to this {question}.
     """
     search = SearchApiAPIWrapper(http_client=http_client)
     summary_prompt_template = PromptTemplate(input_variables=["question"], template=summary_template)
