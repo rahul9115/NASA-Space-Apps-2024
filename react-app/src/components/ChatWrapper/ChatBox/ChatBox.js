@@ -74,7 +74,7 @@ const ChatBox = ({isLoading, inputFiles, setInputFiles, showFiles, setShowFiles,
             
             // Send the audio blob to the API
             const formData = new FormData();
-            formData.append('file', audioBlob, 'recording.webm');  // Append the Blob to the FormData
+            formData.append('file', audioBlob, 'output.webm');  // Append the Blob to the FormData
         
             // var response = (await axios.post(`${process.env.REACT_APP_URL_BASE}/ai_agent`, api_object)).data;
             // Send the FormData to the API using axios

@@ -64,8 +64,8 @@ def set_language(engine, language_code):
     return False
 def text_to_speech(text,lang="mul"):
     tts = gTTS(text=text, lang=lang)
-    file_path = os.path.join(os.getcwd(), "output_hindi.mp3")
-    tts.save("output_hindi.mp3")
+    file_path = os.path.join(os.getcwd(), "output.wav")
+    tts.save("output.wav")
     pygame.mixer.init()
     pygame.mixer.music.load(file_path)
     pygame.mixer.music.play()

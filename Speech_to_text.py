@@ -9,6 +9,8 @@ from langdetect import detect, detect_langs
 import os
 import pygame
 from deep_translator import GoogleTranslator
+from scipy.io import wavfile
+from scipy.signal import resample
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print("The device used is", device)
@@ -16,6 +18,26 @@ model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-large-v2
     "cuda" if torch.cuda.is_available() else "cpu"
 )
 processor = WhisperProcessor.from_pretrained("openai/whisper-large-v2")
+
+
+def read_and_resample_audio(file_path, target_sample_rate=16000):
+    """Reads audio data from a .wav file and resamples it to the target sample rate."""
+    # Read the original sample rate and audio data
+    original_sample_rate, audio_data = wavfile.read(file_path)
+
+    audio_data = np.squeeze(audio_data)
+
+    # If audio_data has more than one channel, convert to mono by averaging channels
+    if len(audio_data.shape) > 1:
+        audio_data = np.mean(audio_data, axis=1)
+
+    # Resample the audio to the target sample rate if it's different from the original
+    if original_sample_rate != target_sample_rate:
+        number_of_samples = int(len(audio_data) * target_sample_rate / original_sample_rate)
+        audio_data = resample(audio_data, number_of_samples)
+
+    print(f"Audio data resampled from {original_sample_rate} Hz to {target_sample_rate} Hz.")
+    return audio_data, target_sample_rate
 
 
 def record_audio(duration=10, sample_rate=16000):
@@ -80,8 +102,8 @@ def set_language(engine, language_code):
 
 def text_to_speech(text, lang="mul"):
     tts = gTTS(text=text, lang=lang)
-    file_path = os.path.join(os.getcwd(), "output_hindi.mp3")
-    tts.save("output_hindi.mp3")
+    file_path = os.path.join(os.getcwd(), "output.wav")
+    tts.save("output.wav")
     pygame.mixer.init()
     pygame.mixer.music.load(file_path)
     pygame.mixer.music.play()
