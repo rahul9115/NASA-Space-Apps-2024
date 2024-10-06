@@ -1,4 +1,4 @@
-from flask import Flask, Response, jsonify, redirect, url_for, request
+from flask import Flask, Response, jsonify, redirect, url_for, request, send_file
 from flask_cors import CORS
 from Speech_to_text import *
 import pandas as pd
@@ -21,6 +21,8 @@ from langdetect import detect, detect_langs
 from pydub import AudioSegment
 import os
 import pygame
+import librosa
+import soundfile as sf
 
 
 @app.route("/ai_agent", methods=["GET", "POST"])
@@ -49,31 +51,22 @@ def audio_call():
         # Convert webm to wav using pydub
         wav_path = "output.webm".replace(".webm", ".wav")
         audio = AudioSegment.from_file("output.webm", format="webm")
+        audio = audio.set_frame_rate(16000)
         audio.export(wav_path, format="wav")
         print(f"File converted to wav: {wav_path}")
-        audio_data, sample_rate = read_and_resample_audio(wav_path)
+        # audio_data, sample_rate = read_and_resample_audio(wav_path)
+        audio_data, sample_rate = librosa.load(wav_path, sr=None)
         transcription, detected_lang = transcribe_audio(audio_data, sample_rate)
-        print(transcription)
-        print(detected_lang)
-        # text_to_speech(transcription, detected_lang)
+        answer=ai_agent(transcription)
+        answer=translate_text_deep(answer,detected_lang)
+        text_to_speech(answer, detected_lang)
+        return send_file(os.getcwd()+"/ai_agent_output.wav", as_attachment=True)
         # translated_text = translate_text_deep(transcription, target_lang="en")
         # print(translated_text)
     else:
         return "Completed"
 
 
-# @app.route("/audio_call", methods=["GET", "POST"])
-# def audio_call():
-#     if request.method == "POST":
-#         print("I am here")
-#         audio_data, sample_rate = record_audio(duration=10, sample_rate=16000)
-#         transcription, detected_lang = transcribe_audio(audio_data, sample_rate)
-#         print(detected_lang)
-#         text_to_speech(transcription, detected_lang)
-#         translated_text = translate_text_deep(transcription, target_lang="en")
-#         text_to_speech(translated_text, lang="en")
-#     else:
-#         return "Completed"
 
 
 if __name__ == "__main__":
