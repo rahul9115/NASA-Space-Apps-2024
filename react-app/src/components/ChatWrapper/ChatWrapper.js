@@ -19,6 +19,7 @@ import { formatAllMessages } from '../../utilities/general';
 import axios from 'axios';
 // import { callGPT } from '../../utilities/gpt_apis';
 // import PQLogo from '../../images/pq-logo.png';
+import { FaLeaf } from 'react-icons/fa';
 
 function ChatWrapper() {
     const {source, setSource} = useSource();
@@ -28,16 +29,7 @@ function ChatWrapper() {
     const [showFiles, setShowFiles] = useState(false);
     const textareaRef = useRef(null);
     const [inputFiles, setInputFiles] = useState([]);
-
-    const addToSystemPrompt = (system_prompt) => {
-        const date = new Date();
-        const formattedDate = date.toLocaleDateString();
-        const formattedTime = date.toLocaleTimeString();
-        const date_sentence = "Today's current date is " + formattedDate + " " + formattedTime;
-        system_prompt["content"] += date_sentence;
-
-        return system_prompt
-    }
+    const [returnAudioUrl, setReturnAudioUrl] = useState("");
     
 
     const handleSubmit = async () => {
@@ -98,12 +90,27 @@ function ChatWrapper() {
         <>
             {/* <HistoryNav isOpen={isOpen} setIsOpen={setIsOpen}/> */}
             {
-                source.session.messages.length === 0 ?
+                source.session.messages.length === 0 && returnAudioUrl === "" ?
                 <OptionContainer setInputValue={setInputValue} handleSubmit={handleSubmit}/>
                 :
-                <MessageContainer isLoading={isLoading} setIsLoading={setIsLoading} refProp={chatBoxRef}/>
+                <>
+                    <MessageContainer isLoading={isLoading} setIsLoading={setIsLoading} refProp={chatBoxRef}/>
+                    {returnAudioUrl !== "" && 
+                    <div className='message-row t-assistant'>
+                        <div className='assistant-message'>
+                            <div className='phoebe-icon'>
+                            <FaLeaf size='1.8rem' color='var(--circle-bg)'/>
+                            </div>
+                            <div style={{width:"41rem"}}>
+                                <audio controls autoPlay={true}>
+                                    <source src={returnAudioUrl} type="audio/wav" />
+                                </audio>
+                            </div>
+                        </div>
+                    </div>}
+                </>
             }
-            <ChatBox isLoading={isLoading} inputFiles={inputFiles} setInputFiles={setInputFiles} showFiles={showFiles} setShowFiles={setShowFiles} textareaRef={textareaRef} handleSubmit={handleSubmit} inputValue={inputValue} setInputValue={setInputValue} setIsLoading={setIsLoading} refProp={chatBoxRef}/>
+            <ChatBox returnAudioUrl={returnAudioUrl} setReturnAudioUrl={setReturnAudioUrl} isLoading={isLoading} inputFiles={inputFiles} setInputFiles={setInputFiles} showFiles={showFiles} setShowFiles={setShowFiles} textareaRef={textareaRef} handleSubmit={handleSubmit} inputValue={inputValue} setInputValue={setInputValue} setIsLoading={setIsLoading} refProp={chatBoxRef}/>
             <div className='bottom-text'>AgriDash can make mistakes. Please check your sources.</div>
         </>
     )

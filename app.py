@@ -57,16 +57,14 @@ def audio_call():
         # audio_data, sample_rate = read_and_resample_audio(wav_path)
         audio_data, sample_rate = librosa.load(wav_path, sr=None)
         transcription, detected_lang = transcribe_audio(audio_data, sample_rate)
-        answer=ai_agent(transcription)
-        answer=translate_text_deep(answer,detected_lang)
-        text_to_speech(answer, detected_lang)
-        return send_file(os.getcwd()+"/ai_agent_output.wav", as_attachment=True)
+        answer = ai_agent(transcription)
+        translated_answer = translate_text_deep(answer, detected_lang)
+        text_to_speech(translated_answer, detected_lang)
+        return send_file(os.getcwd() + "/ai_agent_output.wav", as_attachment=True)
         # translated_text = translate_text_deep(transcription, target_lang="en")
         # print(translated_text)
     else:
         return "Completed"
-
-
 
 
 if __name__ == "__main__":

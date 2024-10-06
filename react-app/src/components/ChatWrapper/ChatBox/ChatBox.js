@@ -9,7 +9,7 @@ import { FaMicrophoneAlt } from "react-icons/fa";
 import { FaRegStopCircle } from "react-icons/fa";
 import axios from 'axios';
 
-const ChatBox = ({isLoading, inputFiles, setInputFiles, showFiles, setShowFiles, textareaRef, handleSubmit, inputValue, setInputValue, refProp}) => {
+const ChatBox = ({returnAudioUrl, setReturnAudioUrl, isLoading, inputFiles, setInputFiles, showFiles, setShowFiles, textareaRef, handleSubmit, inputValue, setInputValue, refProp}) => {
     const {source, setSource} = useSource();
     const [isRecording, setIsRecording] = useState(false);
     const [audioURL, setAudioURL] = useState(null); // Stores the URL of the recorded audio
@@ -67,7 +67,7 @@ const ChatBox = ({isLoading, inputFiles, setInputFiles, showFiles, setShowFiles,
         };
 
         // On stop (when the recording ends)
-        mediaRecorder.onstop = () => {
+        mediaRecorder.onstop = async () => {
             const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
             const audioUrl = URL.createObjectURL(audioBlob);
             setAudioURL(audioUrl);
@@ -78,17 +78,23 @@ const ChatBox = ({isLoading, inputFiles, setInputFiles, showFiles, setShowFiles,
         
             // var response = (await axios.post(`${process.env.REACT_APP_URL_BASE}/ai_agent`, api_object)).data;
             // Send the FormData to the API using axios
-            axios.post(`${process.env.REACT_APP_URL_BASE}/audio_call`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-            .then(response => {
-                console.log('File uploaded successfully:', response.data);
-            })
-            .catch(error => {
-                console.error('Error uploading file:', error);
-            });
+            try {
+                // Post the file to the API
+                const response = await axios.post(`${process.env.REACT_APP_URL_BASE}/audio_call`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                    responseType: 'blob', // Set response type to blob to handle audio file
+                });
+    
+                // Create a URL for the returned audio file (audio/webm or wav)
+                const audioBlob = new Blob([response.data], { type: 'audio/wav' });
+                const audioUrl = URL.createObjectURL(audioBlob);
+                setReturnAudioUrl(audioUrl);
+                setAudioURL(null);
+            } catch (error) {
+                console.error("Error uploading file:", error);
+            }
         };
 
         // Start the MediaRecorder
@@ -248,7 +254,7 @@ const ChatBox = ({isLoading, inputFiles, setInputFiles, showFiles, setShowFiles,
                         ref={canvasRef}
                         style={{ width: '37.5rem', height: '3rem', marginRight: '1rem' }}
                         />}
-                        {(audioURL && !isRecording) && <div style={{fontSize:'14px'}}>Audio Recorded!</div>}
+                        {(audioURL && !isRecording) && <div style={{fontSize:'14px'}}>Processing Audio</div>}
                     </div>
                     ) : (
                     <textarea
